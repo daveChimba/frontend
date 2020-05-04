@@ -2,6 +2,8 @@
 This is a standalone application for personnal management, its formed by Laravel Back-End and Angular Front-End.
 Made with :heart: by V_CAM
 
+Trello Board: https://trello.com/b/uTe0D3Pn/gestion-personnel
+
 # Application deployment procedure.
 
 ## Back-End Laravel
