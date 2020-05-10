@@ -1,0 +1,12 @@
+{
+    "Login": {
+        "SubmitButton": "Me connecter",
+        "Welcome": "Connectez vous à votre compte pour continuer",
+        "EmailLabel": "Email",
+        "EmailField": "Entrez votre adresse Email",
+        "PasswordLabel": "Mot de passe",
+        "PasswordField": "Entrez votre mot de passe",
+        "LeftPaneTitle": "Gestion du personnel",
+        "LeftPaneText": "Assurer la gestion et le suivi du personnel de votre infrastructure, ceci par des interfaces simples et intuitives."
+    }
+}
