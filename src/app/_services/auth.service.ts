@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Routes from '../Routes'; 
 import { Router } from '@angular/router';
-import { User } from '../_models/user.models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +13,13 @@ export class AuthService {
       private router: Router
     ) { }
 
-  login(email: string, password: string): Promise<any> {
+  login(login: string, password: string, keepMeLoggedIn: boolean): Promise<any> {
         let datas = {
-            'email': email,
-            'password': password
+            'login': login,
+            'password': password,
+            'remember_me': keepMeLoggedIn
         }
+        console.log(datas)
         return this.http.post<any>(Routes.LOGIN, datas).toPromise();
     }
 
@@ -56,19 +57,35 @@ export class AuthService {
        return  JSON.parse(localStorage.getItem('token'));
     }
 
+    saveRoles(roles: any) {
+        localStorage.setItem('roles', JSON.stringify(roles));
+    }
+
+    getRoles(){
+       return  JSON.parse(localStorage.getItem('roles'));
+    }
+
+    savePermissions(permissions: any) {
+        localStorage.setItem('permissions', JSON.stringify(permissions));
+    }
+
+    getPermissions(){
+       return  JSON.parse(localStorage.getItem('permissions'));
+    }
+
     saveUser(user: any) {
         localStorage.setItem('user', JSON.stringify(user));
     }
 
-    getUser(): User{
-       return  new User(JSON.parse(localStorage.getItem('user')));
+    getUser(){
+       return  JSON.parse(localStorage.getItem('user'));
     }
 
-    hasPermission(roles: string[]): boolean {
+    hasPermission(permissions: string[]): boolean {
         let authorized = false;
-        if(roles.length > 0) {
-            this.getRoles().filter(role => {
-              if(roles.includes(role.name))
+        if(permissions.length > 0) {
+            this.getPermissions().filter(permission => {
+              if(permissions.includes(permission.name))
                 authorized = true;
             })
             if(authorized) {
@@ -79,11 +96,6 @@ export class AuthService {
         } else{
             return false;
         }
-    }
-
-    getRoles(): any {
-        let user = this.getUser();
-        return user ? user.roles : null
     }
 
     isLogged(): boolean{

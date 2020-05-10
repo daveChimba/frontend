@@ -4,6 +4,7 @@ import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NotifService } from '../_services/notif.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   notLogged = false;
   isLoginError = false;
   isLoginSuccess = false;
+  keepMeLoggedIn = false;
   isSubmitted = false;
 
   constructor(
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private notifService: NotifService) {
+    private notifService: NotifService,
+    private translate: TranslateService) {
   }
 
   ngOnInit() {
@@ -38,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     // Validateur du formulaire
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      login: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -54,6 +57,10 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  onCheckboxClick(event: any) {
+    this.keepMeLoggedIn = event.target.checked;
+  }
+
   /**
    * @ngdoc function
    * @description Cette fonction fait verifie si les params de connexion sont
@@ -61,7 +68,6 @@ export class LoginComponent implements OnInit {
    * @author Descartes Fowo
    */
   onSubmit() {
-    this.notifService.danger('text');
     this.isSubmitted = true;
     this.unknowError = false;
     this.isLoginError = false;
@@ -69,17 +75,23 @@ export class LoginComponent implements OnInit {
     this.isLoading = false
     // Si la validation a echoué, on arrete l'execution de la fonction
     if (this.loginForm.invalid) {
-      console.log('error')
+      this.translate.get('Login.AUTH_LOGIN_FORM')
+        .subscribe(val => this.notifService.danger(val));
       return;
     }
 
     this.isLoading = true;
-    this.authService.login(this.form.email.value, this.form.password.value)
+    this.authService.login(this.form.login.value, this.form.password.value, this.keepMeLoggedIn)
       .then(resp => {
-        
+        this.authService.savePermissions(resp.permissions);
+        this.authService.saveRoles(resp.roles);
+        this.authService.saveToken(resp.token);
+        this.authService.saveUser(resp.user);
+        this.notifService.success('La connexion a reussie')
       })
       .catch(err => {
-        
+        this.translate.get('Login.AUTH_LOGIN')
+        .subscribe(val => this.notifService.danger(val));
       })
       .finally(() => this.isLoading = false);
   }
