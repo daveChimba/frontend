@@ -34,9 +34,8 @@ import { UpdateDivisionComponent } from './divisions/update-division/update-divi
 import { AllProSituationComponent } from './pro_situations/all-pro-situation/all-pro-situation.component';
 import { DetailsProSituationComponent } from './pro_situations/details-pro-situation/details-pro-situation.component';
 
-import { DetailsTypeCongeComponent } from './typeConges/details-type-conge/details-type-conge.component';
-import { ListeTypeCongeComponent } from './typeConges/liste-type-conge/liste-type-conge.component';
-import { DeleteTypeCongeComponent } from './typeConges/delete-type-conge/delete-type-conge.component';
+import { ListeVacationTypeComponent } from './vacation_types/liste-vacation-type/liste-vacation-type.component';
+import { DetailsVacationTypeComponent } from './vacation_types/details-vacation-type/details-vacation-type.component';
 
 
 //const routes: Routes = [];
@@ -70,12 +69,12 @@ const routes: Routes = [
   { path: 'contacts/add',component:AddContactComponent},
   { path: 'assignment-types/add', component: AddAssignmentTypeComponent },
   { path: 'assignment-types/update/:id', component: UpdateAssignmentTypeComponent },
-  //routes pour details, listing et suppression des contacts
-  { path: 'conge-types/details', component: DetailsTypeCongeComponent },
-  { path: 'conge-types/listing', component: ListeTypeCongeComponent },
-  { path: 'conge-types/delete', component: DeleteTypeCongeComponent },
+  //routes pour details, listing et suppression des types de vacations
+  { path: 'vacation-types/liste', component: ListeVacationTypeComponent },
+  { path: 'vacation-types/details/:id', component: DetailsVacationTypeComponent },
+  
  
-  //{ path: '404', component: NotfoundComponent },
+  { path: '404', component: NotfoundComponent },
   { path: '**', redirectTo: 'login' },
 ];
 @NgModule({

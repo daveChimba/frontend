@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class ListeVacationTypeComponent implements OnInit {
 
   
-  VacationTypes: VacationType[] = [];
+  VacationTypes = [];
   loading: boolean = true;
   @BlockUI() blockUI: NgBlockUI;
 
@@ -53,6 +53,7 @@ export class ListeVacationTypeComponent implements OnInit {
    }
 
   ngOnInit() {
+    
     this.getVacationType();
   }
 
@@ -60,9 +61,8 @@ export class ListeVacationTypeComponent implements OnInit {
     this.loading = true;
     this.vacationService.all().then(
       response => {
-        this.VacationTypes = [];
-        response.data.map( VacationType => {
-          this.VacationTypes.push(new VacationType(VacationType));
+        response.map( VacationT => {
+          this.VacationTypes.push(new VacationType(VacationT));
         });
       }
     ).catch(
@@ -76,15 +76,15 @@ export class ListeVacationTypeComponent implements OnInit {
     )
   }
 
-  editVacationType(VacationType: VacationType) {
-    this.router.navigate(['/VacationTypes/update/'+VacationType.id])
+  editVacationType(vacationType: VacationType) {
+    this.router.navigate(['vacation-types/update/'+vacationType.id])
   }
 
-  detailsVacationType(VacationType: VacationType) {
-    this.router.navigate(['/VacationTypes/details/'+VacationType.id])
+  detailsVacationType(vacationType: VacationType) {
+    this.router.navigate(['vacation-types/details/'+vacationType.id])
   }
 
-  deleteVacationType(VacationType: VacationType) {
+  deleteVacationType(vacationType: VacationType) {
     Swal.fire({
       title: this.areYouSure,
       text: this.warning,
@@ -95,7 +95,7 @@ export class ListeVacationTypeComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.blockUI.start('Loading...');
-        this.vacationService.delete(VacationType.id).then(
+        this.vacationService.delete(vacationType.id).then(
           data => {
             this.blockUI.stop();
             Swal.fire(
