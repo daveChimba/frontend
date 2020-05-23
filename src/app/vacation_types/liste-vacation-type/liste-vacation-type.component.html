@@ -41,9 +41,9 @@
                     <tr *ngFor="let vacationType of VacationTypes,let i = index" id="tr{{ vacationType.id }}">
                         <td>{{ i+1 }}</td>
                         <td style="width: 25%">{{ vacationType.name }}</td>
-                        <td style="width: 25%">{{ vacationType.description }}</td>
-                        <td style="width: 12%">{{ vacationType.days }}</td>
-                        <td style="width: 15%">
+                        <td style="width: 35%">{{ vacationType.description }}</td>
+                        <td style="width: 10%">{{ vacationType.days }}</td>
+                        <td style="width: 25%">
                             <button class="mr-2 btn-icon btn-icon-only btn btn-outline-primary" (click)="editVacationType(vacationType)"><i class="pe-7s-pen btn-icon-wrapper"> </i></button>
                             <button class="mr-2 btn-icon btn-icon-only btn btn-outline-success" (click)="detailsVacationType(vacationType)"><i class="pe-7s-info btn-icon-wrapper"> </i></button>
                             <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteVacationType(vacationType)"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>

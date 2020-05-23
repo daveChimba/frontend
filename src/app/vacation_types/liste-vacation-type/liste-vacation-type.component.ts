@@ -58,9 +58,11 @@ export class ListeVacationTypeComponent implements OnInit {
   }
 
   getVacationType() {
+    console.log("ok");
     this.loading = true;
     this.vacationService.all().then(
       response => {
+        this.VacationTypes = [];
         response.map( VacationT => {
           this.VacationTypes.push(new VacationType(VacationT));
         });
